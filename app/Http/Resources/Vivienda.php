@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Resources;
+
 use App\Models\Vivienda as ViviendaModel;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -25,12 +26,14 @@ class Vivienda extends JsonResource
             'habitacion' => $this->habitacion,
             'planta' => $this->planta,
             'banos' => $this->banos,
-            'ascensor' => $this->ascensor?"SI":"NO",
-            'garaje' => $this->garaje?"SI":"NO",
-            'terraza' => $this->terraza?"SI":"NO",
+            'ascensor' => $this->ascensor ? "SI" : "NO",
+            'garaje' => $this->garaje ? "SI" : "NO",
+            'terraza' => $this->terraza ? "SI" : "NO",
             'm2' => $this->m2,
 
 
         ];
+
+        //Probando
     }
 }
