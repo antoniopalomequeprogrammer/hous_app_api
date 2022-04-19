@@ -21,9 +21,9 @@ class CreateViviendasTable extends Migration
             $table->integer('habitacion');
             $table->integer('planta');
             $table->integer('banos');
-            $table->integer('ascensor');
-            $table->integer('garaje');
-            $table->integer('terraza');
+            $table->integer('ascensor')->default(0);
+            $table->integer('garaje')->default(0);
+            $table->integer('terraza')->default(0);
             $table->string('m2');
             $table->timestamps();
         });

@@ -19,7 +19,7 @@ class CreateInmobiliariasTable extends Migration
             $table->string('descripcion');
             $table->string('direccion');
             $table->string('telefono');
-            $table->string('logo');
+            $table->string('logo')->nullable();
             $table->string('email');
             $table->timestamps();
         });

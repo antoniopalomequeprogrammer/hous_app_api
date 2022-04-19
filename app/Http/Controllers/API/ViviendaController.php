@@ -55,6 +55,8 @@ class ViviendaController extends ResponseController
             })
             ->paginate($perPage);
 
+            
+
         $viviendas = new ViviendaCollection($viviendas);
 
         return response()->json($viviendas);
@@ -94,6 +96,12 @@ class ViviendaController extends ResponseController
         $userId = Auth::user()->id;
         $inmobiliaria = Inmobiliaria::where('user_id', $userId)->first();
 
+
+        $garaje = $request->has('garaje')  ?  $request->get('garaje') : 0;
+        $ascensor = $request->has('ascensor')  ?  $request->get('ascensor') : 0;
+        $terraza = $request->has('terraza')  ?  $request->get('terraza') : 0;
+
+
         $viviendaData = [];
         $viviendaData['titulo'] = $request->get('titulo');
         $viviendaData['descripcion'] = $request->get('descripcion');
@@ -101,9 +109,9 @@ class ViviendaController extends ResponseController
         $viviendaData['precio'] = $request->get('precio');
         $viviendaData['habitacion'] = $request->get('habitacion');
         $viviendaData['banos'] = $request->get('banos');
-        $viviendaData['garaje'] = $request->get('garaje');
-        $viviendaData['ascensor'] = $request->get('ascensor');
-        $viviendaData['terraza'] = $request->get('terraza');
+        $viviendaData['garaje'] = $garaje;
+        $viviendaData['ascensor'] = $ascensor;
+        $viviendaData['terraza'] = $terraza;
         $viviendaData['m2'] = $request->get('m2');
         $viviendaData['inmobiliaria_id'] = $inmobiliaria->id;
         $viviendaData['estado_id'] = $request->get('estado');
@@ -146,7 +154,10 @@ class ViviendaController extends ResponseController
     {
         $inputs = $request->get('vivienda');
 
-        // try {
+        $garaje = $request->has('garaje')  ?  $request->get('garaje') : 0;
+        $ascensor = $request->has('ascensor')  ?  $request->get('ascensor') : 0;
+        $terraza = $request->has('terraza')  ?  $request->get('terraza') : 0;
+        
         Vivienda::where('id', $id)->update([
             'titulo' => $inputs['titulo'],
             'descripcion' => $inputs['descripcion'],
@@ -154,9 +165,9 @@ class ViviendaController extends ResponseController
             'habitacion' => $inputs['habitacion'],
             'planta' => $inputs['planta'],
             'banos' => $inputs['banos'],
-            'ascensor' => $inputs['ascensor'] == "SI" ? 1 : 0,
-            'garaje' => $inputs['garaje'] == "SI" ? 1 : 0,
-            'terraza' => $inputs['terraza'] == "SI" ? 1 : 0,
+            'ascensor' => $ascensor,
+            'garaje' => $garaje,
+            'terraza' => $terraza,
             'm2' => $inputs['m2'],
 
 

@@ -26,9 +26,9 @@ class Vivienda extends JsonResource
             'habitacion' => $this->habitacion,
             'planta' => $this->planta,
             'banos' => $this->banos,
-            'ascensor' => $this->ascensor ? "SI" : "NO",
-            'garaje' => $this->garaje ? "SI" : "NO",
-            'terraza' => $this->terraza ? "SI" : "NO",
+            'ascensor' => $this->ascensor,
+            'garaje' => $this->garaje,
+            'terraza' => $this->terraza,
             'm2' => $this->m2,
 
 
