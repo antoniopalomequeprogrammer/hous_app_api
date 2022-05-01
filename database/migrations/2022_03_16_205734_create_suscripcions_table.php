@@ -15,6 +15,9 @@ class CreateSuscripcionsTable extends Migration
     {
         Schema::create('suscripcions', function (Blueprint $table) {
             $table->id();
+            $table->string('titulo');
+            $table->string('descripcion');
+            $table->integer('importe');
             $table->timestamps();
         });
     }

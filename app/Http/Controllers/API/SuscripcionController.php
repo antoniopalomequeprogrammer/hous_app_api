@@ -1,20 +1,26 @@
 <?php
 
-namespace App\Http\Controllers;
-
-use App\Suscripcion;
+namespace App\Http\Controllers\API;
+use App\Models\Suscripcion;
 use Illuminate\Http\Request;
+use App\Http\Resources\SuscripcionCollection;
+use App\Http\Controllers\API\ResponseController as ResponseController;
 
-class SuscripcionController extends Controller
+class SuscripcionController extends ResponseController
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        //
+    public function index(Request $request){
+        $perPage = $request->get('perPageData');
+  
+        $suscripciones = Suscripcion::where(function ($query) use ($request){
+  
+            if($request->has('search')){
+                $query->where('titulo','LIKE','%'.$request->search.'%');
+            }
+  
+        })->paginate($perPage);
+        
+        return new SuscripcionCollection($suscripciones);
+  
     }
 
     /**

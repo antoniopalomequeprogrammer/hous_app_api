@@ -76,6 +76,10 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::post('tipo/store', 'API\TiposController@store')->middleware('scope:admin');
     Route::post('tipo/eliminar/{id}', 'API\TipoController@eliminarTipo')->middleware('scope:admin');
 
+    // Suscripciones
+    Route::post('suscripciones/index/{page?}', 'API\SuscripcionController@index')->middleware('scope:admin');
+
+
     // Viviendas
     Route::post('viviendas/mis-viviendas/{page?}', 'API\ViviendaController@misViviendas')->middleware('scope:admin,colaborador');
     Route::post('vivienda/store', 'API\ViviendaController@store')->middleware('scope:admin,colaborador');

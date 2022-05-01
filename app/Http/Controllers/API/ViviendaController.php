@@ -38,6 +38,14 @@ class ViviendaController extends ResponseController
                 $query->where('garaje', $filtros['garaje']);
             })
 
+            ->when($filtros['precio']!= '', function ($query) use ($filtros){
+                $query->where('precio', '<=', $filtros['precio']);
+            })
+
+            ->when($filtros['ciudad'] != '', function ($query) use ($filtros){
+                $query->where('ciudad',$filtros['ciudad']);
+            })
+
             ->when($filtros['habitaciones'] != '', function ($query) use ($filtros) {
 
                 if ($filtros['habitaciones'] >= 3) {
@@ -52,8 +60,7 @@ class ViviendaController extends ResponseController
                 } else {
                     $query->where('banos', $filtros['banos']);
                 }
-            })
-            ->paginate($perPage);
+            })->paginate($perPage);
 
             
 
