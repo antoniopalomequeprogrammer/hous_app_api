@@ -25,6 +25,7 @@ Route::get('grupos/index', 'API\GrupoController@index');
 Route::post('viviendas/index/{page?}', 'API\ViviendaController@index');
 Route::get('vivienda/{id?}', 'API\ViviendaController@vivienda');
 Route::get('index/inmobiliarias', 'API\InmobiliariaController@index');
+Route::get('suscripciones/tarifas','API\SuscripcionController@tarifas');
 
 Route::group(['middleware' => ['guest:api']], function () {
     Route::post('login', 'API\AuthController@login');
@@ -78,8 +79,7 @@ Route::group(['middleware' => 'auth:api'], function () {
 
     // Suscripciones
     Route::post('suscripciones/index/{page?}', 'API\SuscripcionController@index')->middleware('scope:admin');
-
-
+    Route::post('suscripcion/crear','API\SuscripcionController@store')->middleware('scope:admin');
     // Viviendas
     Route::post('viviendas/mis-viviendas/{page?}', 'API\ViviendaController@misViviendas')->middleware('scope:admin,colaborador');
     Route::post('vivienda/store', 'API\ViviendaController@store')->middleware('scope:admin,colaborador');

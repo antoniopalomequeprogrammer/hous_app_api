@@ -18,6 +18,7 @@ class Vivienda extends JsonResource
         return [
             'total' => count(ViviendaModel::all()),
             'inmobiliaria' => $this->inmobiliaria->nombre,
+            'telefono' => $this->inmobiliaria->telefono,
             'imagenes' => $this->imagenes,
             'id' => $this->id,
             'titulo' => $this->titulo,

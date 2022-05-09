@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\API;
 use App\Models\Suscripcion;
+use App\Services\StripeService;
 use Illuminate\Http\Request;
 use App\Http\Resources\SuscripcionCollection;
 use App\Http\Controllers\API\ResponseController as ResponseController;
@@ -23,11 +24,12 @@ class SuscripcionController extends ResponseController
   
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    
+    public function tarifas(){
+       $tarifas =  Suscripcion::all();
+       return new SuscripcionCollection($tarifas);
+    }
+
     public function create()
     {
         //
@@ -41,7 +43,10 @@ class SuscripcionController extends ResponseController
      */
     public function store(Request $request)
     {
-        //
+        $inputs = $request->get('suscripcion');
+        $nuevaSuscripcion = Suscripcion::create($inputs);
+        return response()->json($nuevaSuscripcion);
+
     }
 
     /**

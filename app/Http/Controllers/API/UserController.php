@@ -5,6 +5,7 @@ use App\Models\User;
 use App\Http\Resources\User as User_R;
 use  App\Http\Resources\UserCollection;
 use Illuminate\Http\Request;
+use App\Services\StripeService;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\API\ResponseController as ResponseController;
 
@@ -39,6 +40,10 @@ class UserController extends ResponseController
         $inputs['password'] = bcrypt($inputs['password']);
         $inputs['permiso_id'] = $inputs['rol'] == "admin" ? 1:2;
         $nuevoUsuario = User::create($inputs);
+        
+        if($inputs['rol'] == 'colaborador'){
+          StripeService::createCustomer($inputs);
+        }
         return response()->json($nuevoUsuario);
   }
 

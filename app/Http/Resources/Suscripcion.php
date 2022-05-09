@@ -19,7 +19,7 @@ class Suscripcion extends JsonResource
             'id' => $this->id,
             'titulo' => $this->titulo,
             'descripcion' => $this->descripcion,
-            'precio' => $this->precio,
+            'importe' => $this->importe,
 
         ];
     }
