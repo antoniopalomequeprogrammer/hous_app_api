@@ -31,38 +31,29 @@ class NotificacionController extends ResponseController
     }
 
     
-    public function create()
+    public function crearNotificacion(Request $request)
     {
-        //
+        // Obtener nombre de contacto, telefono, mensaje, id del usuario que manda el mensaje y vivienda_id
+
+        $inputs = $request->get('mensaje');
+        $data['mensaje'] = $inputs['mensaje'];
+        $data['telefono'] = $inputs['telefono'];
+        $data['nombre_contacto'] = $inputs['nombre_contacto'];
+        $data['vivienda_id'] = $inputs['vivienda_id'];
+
+        $nuevaNotificacion = Notificacion::create([
+            'mensaje' => $inputs['mensaje'],
+            'telefono' => $inputs['telefono'],
+            'nombre_contacto' => $inputs['nombre_contacto'],
+            'vivienda_id' => $inputs['vivienda_id'],
+        ]);
+
+
     }
 
     
-    public function store(Request $request)
+    public function eliminarNotificacion($id)
     {
-        //
-    }
-
-    
-    public function show(Notificacion $notificacion)
-    {
-        //
-    }
-
-    
-    public function edit(Notificacion $notificacion)
-    {
-        //
-    }
-
-    
-    public function update(Request $request, Notificacion $notificacion)
-    {
-        //
-    }
-
-    
-    public function destroy(Notificacion $notificacion)
-    {
-        //
+        Notificacion::find($id)->delete();
     }
 }

@@ -9,4 +9,6 @@ class Notificacion extends Model
     public function vivienda(){
         return $this->belongsTo(Vivienda::class);
     }
+
+    protected $guarded = ['id'];
 }

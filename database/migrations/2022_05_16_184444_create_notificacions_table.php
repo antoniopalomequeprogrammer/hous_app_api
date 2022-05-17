@@ -16,6 +16,7 @@ class CreateNotificacionsTable extends Migration
         Schema::create('notificacions', function (Blueprint $table) {
             $table->id();
             $table->string('mensaje');
+            $table->string('nombre_contacto');
             $table->string('telefono');
             $table->timestamps();
         });

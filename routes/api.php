@@ -26,7 +26,7 @@ Route::post('viviendas/index/{page?}', 'API\ViviendaController@index');
 Route::get('vivienda/{id?}', 'API\ViviendaController@vivienda');
 Route::get('index/inmobiliarias', 'API\InmobiliariaController@index');
 Route::get('suscripciones/tarifas','API\SuscripcionController@tarifas');
-
+Route::post('notificacion/crear/','API\NotificacionController@crearNotificacion');
 Route::group(['middleware' => ['guest:api']], function () {
     Route::post('login', 'API\AuthController@login');
     Route::post('register', 'API\AuthController@register');
@@ -74,6 +74,8 @@ Route::group(['middleware' => 'auth:api'], function () {
 
     // Notificaciones
     Route::post('notificaciones/index','API\NotificacionController@index')->middleware('scope:colaborador');
+    Route::post('notificacion/eliminar/{id}','API\NotificacionController@eliminarNotificacion')->middleware('scope:colaborador');
+    
     
 
     // Tipo
