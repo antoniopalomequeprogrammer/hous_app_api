@@ -40,6 +40,12 @@ class CustomForeigns extends Migration
 			$table->foreign('vivienda_id')->references('id')->on('viviendas')->nullable();
 		});
 
+		Schema::table('notificacions', function(Blueprint $table){
+			$table->unsignedBigInteger('vivienda_id')->unsigned();
+			$table->foreign('vivienda_id')->references('id')->on('viviendas')->nullable();
+			$table->unsignedBigInteger('user_id')->unsigned();
+			$table->foreign('user_id')->references('id')->on('users')->nullable();
+		});
 
 
 

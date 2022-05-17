@@ -116,6 +116,7 @@ class ViviendaController extends ResponseController
         $viviendaData['precio'] = $request->get('precio');
         $viviendaData['habitacion'] = $request->get('habitacion');
         $viviendaData['banos'] = $request->get('banos');
+        $viviendaData['ciudad'] = $request->get('ciudad');
         $viviendaData['garaje'] = $garaje;
         $viviendaData['ascensor'] = $ascensor;
         $viviendaData['terraza'] = $terraza;
@@ -202,8 +203,22 @@ class ViviendaController extends ResponseController
     {
 
         try {
-            Vivienda::where('id', $id)->delete();
-            return "ok";
+
+            $id = Vivienda::where('id',$id)->first()->id;
+            
+            $imagenes = Imagen::where('vivienda_id',$id)->get();
+
+            // ForEach que borra las imagenes almacenadas.
+            foreach ($imagenes as $key => $imagen) {
+                FileService::borrarArchivo($imagen->ruta);
+            }
+
+            //Borramos las rutas de las imagenes de la vivienda. 
+            Imagen::where('vivienda_id',$id)->delete();
+
+            // Borramos la vivienda.
+            Vivienda::find($id)->delete();
+
         } catch (\Exeptions $e) {
             return $this->sendError("No se puede borrar la vivienda");
         }

@@ -24,4 +24,8 @@ class Vivienda extends Model
     public function inmobiliaria(){
         return $this->belongsTo(Inmobiliaria::class);
     }
+
+    public function notificaciones(){
+        return $this->hasMany(Notificacion::class);
+    }
 }

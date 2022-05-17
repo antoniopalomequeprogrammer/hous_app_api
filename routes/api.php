@@ -72,6 +72,9 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::post('estado/store', 'API\EstadoController@store')->middleware('scope:admin');
     Route::post('estados/eliminar/{id}', 'API\EstadoController@eliminarEstado')->middleware('scope:admin');
 
+    // Notificaciones
+    Route::post('notificaciones/index','API\NotificacionController@index')->middleware('scope:colaborador');
+    
 
     // Tipo
     Route::post('tipo/store', 'API\TiposController@store')->middleware('scope:admin');
