@@ -27,6 +27,10 @@ Route::get('vivienda/{id?}', 'API\ViviendaController@vivienda');
 Route::get('index/inmobiliarias', 'API\InmobiliariaController@index');
 Route::get('suscripciones/tarifas','API\SuscripcionController@tarifas');
 Route::post('notificacion/crear/','API\NotificacionController@crearNotificacion');
+Route::post('vivienda/inmobiliaria','API\InmobiliariaController@viviendasInmobiliaria');
+
+
+
 Route::group(['middleware' => ['guest:api']], function () {
     Route::post('login', 'API\AuthController@login');
     Route::post('register', 'API\AuthController@register');
@@ -66,6 +70,7 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::post('actualizar/inmobiliaria', 'API\InmobiliariaController@actualizar')->middleware('scope:admin,colaborador');
     Route::post('inmobiliaria/eliminar/{id}', 'API\InmobiliariaController@eliminarInmobiliaria')->middleware('scope:admin');
     Route::post('editar/inmobiliaria/{id}', 'API\InmobiliariaController@editar')->middleware('scope:admin');
+    
 
 
     // Estado

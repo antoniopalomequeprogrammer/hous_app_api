@@ -4,7 +4,7 @@ namespace App\Http\Resources;
 
 use App\Models\Vivienda as ViviendaModel;
 use Illuminate\Http\Resources\Json\JsonResource;
-
+use App\Http\Resources\ImagenCollection;
 class Vivienda extends JsonResource
 {
 
@@ -13,6 +13,10 @@ class Vivienda extends JsonResource
         return [
             'total' => count(ViviendaModel::all()),
             'inmobiliaria' => $this->inmobiliaria->nombre,
+            'ciudad' => $this->ciudad,
+            'tipo' => $this->tipo->tipo,
+            'estado' => $this->estado->estado,
+            'logo_inmobiliaria' => $this->inmobiliaria->logo,
             'telefono' => $this->inmobiliaria->telefono,
             'imagenes' => $this->imagenes,
             'id' => $this->id,

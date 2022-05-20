@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API;
 use App\Models\Inmobiliaria;
 use Illuminate\Http\Request;
 use App\Models\Vivienda;
+use App\Http\Resources\ViviendaCollection;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\API\ResponseController as ResponseController;
 use App\Services\FileService;
@@ -48,6 +49,20 @@ class InmobiliariaController extends ResponseController
             Inmobiliaria::create($data);
         }
 
+
+
+    }
+
+
+    public function viviendasInmobiliaria(Request $request){
+
+        $idInmobiliaria = $request->get('idInmobiliaria');
+
+        $viviendas = Vivienda::where('inmobiliaria_id',$idInmobiliaria)->get();
+        
+        $viviendas = new ViviendaCollection($viviendas);
+
+        return response()->json($viviendas);
 
 
     }

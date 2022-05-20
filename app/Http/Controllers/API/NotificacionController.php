@@ -22,7 +22,7 @@ class NotificacionController extends ResponseController
 
         $idsViviendas = Vivienda::where('inmobiliaria_id',$idInmobiliaria)->select('id')->get();
 
-        $viviendasNotificaciones = Notificacion::with('vivienda')->whereIn('vivienda_id',$idsViviendas)->get();
+        $viviendasNotificaciones = Notificacion::with('vivienda.imagenes')->whereIn('vivienda_id',$idsViviendas)->get();
 
         $notificaciones = new NotificacionCollection($viviendasNotificaciones);
 

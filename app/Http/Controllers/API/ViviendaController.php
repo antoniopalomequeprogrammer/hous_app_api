@@ -134,7 +134,6 @@ class ViviendaController extends ResponseController
             foreach ($imagenes as $key => $imagen) {
                 $imagen = FileService::guardarArchivo($imagen, "/vivienda/{$vivienda->id}", true);
 
-                // $imagen = ImageOptimizer::optimize($imagen);
 
                 Imagen::create([
                     'ruta' => $imagen,

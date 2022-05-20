@@ -10,7 +10,7 @@ class Vivienda extends Model
     protected $guarded = ['id'];
 
     public function estado(){
-        return $this->hasOne(Estado::class);
+        return $this->belongsTo(Estado::class);
     }
 
     public function imagenes(){
@@ -18,7 +18,7 @@ class Vivienda extends Model
     }
 
     public function tipo(){
-        return $this->hasOne(Tipo::class);
+        return $this->belongsTo(Tipo::class);
     }
 
     public function inmobiliaria(){
