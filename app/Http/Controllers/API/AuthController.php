@@ -77,9 +77,9 @@ class AuthController extends ResponseController{
         
         if($user){
 
-            $clienteNuevo = StripeService::createCustomer($user);
+            // $clienteNuevo = StripeService::createCustomer($user);
 
-            dd($clienteNuevo);
+            // dd($clienteNuevo);
 
             $success['token'] =  $user->createToken('token', [$user->rol])->accessToken;
             $success['nombre'] =  $user->nombre;

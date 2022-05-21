@@ -63,8 +63,8 @@ class ViviendaController extends ResponseController
             })->paginate($perPage);
 
             
-
-        $viviendas = new ViviendaCollection($viviendas);
+            $viviendas = new ViviendaCollection($viviendas);
+            return $viviendas;
 
         return response()->json($viviendas);
     }
