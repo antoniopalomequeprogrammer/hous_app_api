@@ -24,7 +24,7 @@ Route::get('tipos/index', 'API\TipoController@index');
 Route::get('grupos/index', 'API\GrupoController@index');
 Route::post('viviendas/index/{page?}', 'API\ViviendaController@index');
 Route::get('vivienda/{id?}', 'API\ViviendaController@vivienda');
-Route::get('index/inmobiliarias', 'API\InmobiliariaController@index');
+Route::post('index/inmobiliarias/{page?}', 'API\InmobiliariaController@index');
 Route::get('suscripciones/tarifas','API\SuscripcionController@tarifas');
 Route::post('notificacion/crear/','API\NotificacionController@crearNotificacion');
 Route::post('vivienda/inmobiliaria','API\InmobiliariaController@viviendasInmobiliaria');

@@ -4,7 +4,7 @@ namespace App\Http\Resources;
 
 use App\Models\Vivienda as ViviendaModel;
 use Illuminate\Http\Resources\Json\JsonResource;
-use App\Http\Resources\ImagenCollection;
+
 class Vivienda extends JsonResource
 {
 

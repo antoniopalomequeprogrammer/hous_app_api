@@ -63,7 +63,6 @@ class AuthController extends ResponseController{
         $userData['activo'] = 1;
         $userData['password'] = bcrypt($input['pass']);
         $userData['rol'] = $input['userType'];
-        $userData['logo'] = "";
         $user = User::create($userData);
 
         // if (isset($input['logo'])) {

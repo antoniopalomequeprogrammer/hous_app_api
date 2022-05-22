@@ -5,17 +5,29 @@ use App\Models\Inmobiliaria;
 use Illuminate\Http\Request;
 use App\Models\Vivienda;
 use App\Http\Resources\ViviendaCollection;
+use App\Http\Resources\InmobiliariaCollection;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\API\ResponseController as ResponseController;
 use App\Services\FileService;
 class InmobiliariaController extends ResponseController
 {
 
-    public function index()
-    {
-        $inmobiliarias = Inmobiliaria::all();
+    public function index(Request $request)
+    {   
+        $search = $request->get('search');
+        $perPage = $request->get('perPageData');
 
-        return response()->json($inmobiliarias);
+        $inmobiliarias = Inmobiliaria::where(function ($query) use ($search,$request){
+            if($request->has('search')){
+                $query->where('nombre', 'LIKE', '%'.$search.'%');
+            }
+        })->paginate($perPage);
+
+        
+        $inmobiliarias = new InmobiliariaCollection($inmobiliarias);
+
+        return $inmobiliarias;
+
     }
 
     public function comprobar(){
@@ -27,18 +39,25 @@ class InmobiliariaController extends ResponseController
     }
 
     public function actualizar(Request $request){
+        
         $input = $request->get('inmobiliaria');
         $userId = Auth::user()->id;
         $data = [];
-        $data['nombre'] = $input['nombre'];
-        $data['telefono'] = $input['telefono'];
-        $data['direccion'] = $input['direccion'];
-        $data['descripcion'] = $input['descripcion'];
-        $data['email'] = $input['email'];
+        $data['nombre'] = $request->get('nombre');
+        $data['telefono'] = $request->get('telefono');
+        $data['direccion'] = $request->get('direccion');
+        $data['descripcion'] = $request->get('descripcion');
+        $data['email'] = $request->get('email');
         $data['user_id'] = $userId;
 
-        $inmobiliaria = Inmobiliaria::where('user_id',$userId)->first();
+        $path = "/".$request->get('id');
 
+        if($request->has('logo')){
+            $logo = FileService::guardarArchivo($request->get('logo'), $path,true);
+            $data['logo'] = $logo;
+        }
+
+        $inmobiliaria = Inmobiliaria::where('user_id',$userId)->first();
 
 
         if(isset($inmobiliaria)){
