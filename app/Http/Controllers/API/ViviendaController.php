@@ -29,10 +29,12 @@ class ViviendaController extends ResponseController
                 $query->where('titulo', 'LIKE', '%' . $request->search . '%');
             }
         })
-            ->when($filtros['ascensor'] != '', function ($query) use ($filtros) {
-                $query->where('ascensor', (int)$filtros['ascensor']);
+            ->when($filtros['ascensor'], function ($query) use ($filtros) {
+                
+                $query->where('ascensor', $filtros['ascensor']);
             })
             ->when($filtros['terraza'] != '', function ($query) use ($filtros) {
+                
                 $query->where('terraza', $filtros['terraza']);
             })
             ->when($filtros['garaje'] != '', function ($query) use ($filtros) {
@@ -50,14 +52,14 @@ class ViviendaController extends ResponseController
             ->when($filtros['habitaciones'] != '', function ($query) use ($filtros) {
 
                 if ($filtros['habitaciones'] >= 3) {
-                    $query->where('habitacion', '<', $filtros['habitaciones']);
+                    $query->where('habitacion', '<=', $filtros['habitaciones']);
                 } else {
                     $query->where('habitacion', $filtros['habitaciones']);
                 }
             })
             ->when($filtros['banos'] != '', function ($query) use ($filtros) {
                 if ($filtros['banos'] >= 3) {
-                    $query->where('banos', '<', $filtros['banos']);
+                    $query->where('banos', '<=', $filtros['banos']);
                 } else {
                     $query->where('banos', $filtros['banos']);
                 }
@@ -120,6 +122,9 @@ class ViviendaController extends ResponseController
     public function misViviendas(Request $request)
     {
         $perPage = $request->get('perPageData');
+
+        
+
         $inmobiliaria_id = Inmobiliaria::where('user_id',\Auth::user()->id)->first()->id;
         
         $viviendas = Vivienda::where(function ($query) use ($request) {

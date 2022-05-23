@@ -17,17 +17,24 @@ class NotificacionController extends ResponseController
     {
         $userId = Auth::user()->id;
 
-        $idInmobiliaria = Inmobiliaria::where('user_id',$userId)->first()->id;
+        $notificaciones =  Inmobiliaria::where('user_id',$userId)->get();
+
+        if(count($notificaciones)>0){
+
+            $idInmobiliaria = Inmobiliaria::where('user_id',$userId)->first()->id;
+
+            $idsViviendas = Vivienda::where('inmobiliaria_id',$idInmobiliaria)->select('id')->get();
+    
+            $viviendasNotificaciones = Notificacion::with('vivienda.imagenes')->whereIn('vivienda_id',$idsViviendas)->get();
+    
+            $notificaciones = new NotificacionCollection($viviendasNotificaciones);
+    
+            return response()->json($notificaciones);
+        }
+
 
         
 
-        $idsViviendas = Vivienda::where('inmobiliaria_id',$idInmobiliaria)->select('id')->get();
-
-        $viviendasNotificaciones = Notificacion::with('vivienda.imagenes')->whereIn('vivienda_id',$idsViviendas)->get();
-
-        $notificaciones = new NotificacionCollection($viviendasNotificaciones);
-
-        return response()->json($notificaciones);
 
     }
 
