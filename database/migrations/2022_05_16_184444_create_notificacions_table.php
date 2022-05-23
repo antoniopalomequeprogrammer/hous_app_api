@@ -18,6 +18,7 @@ class CreateNotificacionsTable extends Migration
             $table->string('mensaje');
             $table->string('nombre_contacto');
             $table->string('telefono');
+            $table->int('user_id')->nullable();
             $table->timestamps();
         });
     }

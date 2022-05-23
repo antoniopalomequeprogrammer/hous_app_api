@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\API\ResponseController as ResponseController;
 use App\Http\Resources\ViviendaCollection;
 use App\Models\Imagen;
+use App\Models\User;
 use App\Services\FileService;
 
 class ViviendaController extends ResponseController
@@ -68,6 +69,53 @@ class ViviendaController extends ResponseController
 
         return response()->json($viviendas);
     }
+
+
+    public function misFavoritas(Request $request){
+
+        $userId = Auth::user()->id;
+
+        $viviendasFavoritas = User::where('id',$userId)->with('viviendas')->first()->viviendas;
+
+        return new ViviendaCollection($viviendasFavoritas);
+
+
+
+
+
+
+    }
+
+    public function addFavoritos(Request $request){
+        
+        $idVivienda = $request->get('idVivienda');
+
+        $userId = Auth::user()->id;
+
+        $existe =  \DB::table('user_vivienda')->where('user_id',$userId)->where('vivienda_id',$idVivienda)->first();
+
+        
+
+        if($existe){
+            \DB::table('user_vivienda')->where('user_id',$userId)->where('vivienda_id',$idVivienda)->delete();
+            $mensaje = 'Se ha quitado la vivienda de favoritos';
+            return response()->json($mensaje);
+        }else{
+            
+            \DB::table('user_vivienda')->insert([
+                'user_id' => $userId,
+                'vivienda_id' => $idVivienda,
+            ]);
+            $mensaje = 'Se ha añadido la vivienda a favoritos';
+            return response()->json($mensaje);
+        }
+
+
+
+
+
+    }
+
 
     public function misViviendas(Request $request)
     {

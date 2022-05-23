@@ -79,6 +79,7 @@ Route::group(['middleware' => 'auth:api'], function () {
 
     // Notificaciones
     Route::post('notificaciones/index','API\NotificacionController@index')->middleware('scope:colaborador');
+    Route::post('notificaciones/mis-notificaciones','API\NotificacionController@misNotificaciones');
     Route::post('notificacion/eliminar/{id}','API\NotificacionController@eliminarNotificacion')->middleware('scope:colaborador');
     
     
@@ -95,7 +96,8 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::post('vivienda/store', 'API\ViviendaController@store')->middleware('scope:admin,colaborador');
     Route::post('vivienda/actualizar/{id}', 'API\ViviendaController@update')->middleware('scope:admin,colaborador');
     Route::post('vivienda/eliminar/{id}', 'API\ViviendaController@eliminarVivienda')->middleware('scope:admin,colaborador');
-
+    Route::post('viviendas/mis-favoritas','API\ViviendaController@misFavoritas');
+    Route::post('viviendas/anadir-favoritos','API\ViviendaController@addFavoritos');
     // Estados
     // ->middleware('scope:admim,colaborador');
 

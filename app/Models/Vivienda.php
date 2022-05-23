@@ -28,4 +28,8 @@ class Vivienda extends Model
     public function notificaciones(){
         return $this->hasMany(Notificacion::class);
     }
+
+    public function users(){
+        return $this->belongsToMany(User::class);
+    }
 }

@@ -52,6 +52,10 @@ class User extends Authenticatable
        return $this->hasMany(File::class);
     }
 
+    public function viviendas(){
+        return $this->belongsToMany(Vivienda::class);
+    }
+
 
 
 }
