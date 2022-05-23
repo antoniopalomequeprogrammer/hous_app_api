@@ -14,10 +14,16 @@ class EstadoController extends ResponseController
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $estados = Estado::all();
-        $estados = new EstadoCollection($estados);
+        $perPage = $request->get('perPageData');
+
+        $estados = Estado::where(function ($query) use ($request){
+            if($request->has('search')){
+                $query->where('estado','LIKE','%'.$request->search.'%');
+            }
+        })->paginate($perPage);
+
         return $estados;
     }
 

@@ -19,8 +19,12 @@ ES FRONT NO CLIENTE EL SCOPE DEL FRONT
 
 
 
-Route::post('estados/index', 'API\EstadoController@index');
-Route::get('tipos/index', 'API\TipoController@index');
+
+
+
+
+
+
 Route::get('grupos/index', 'API\GrupoController@index');
 Route::post('viviendas/index/{page?}', 'API\ViviendaController@index');
 Route::get('vivienda/{id?}', 'API\ViviendaController@vivienda');
@@ -78,7 +82,7 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::post('estados/eliminar/{id}', 'API\EstadoController@eliminarEstado')->middleware('scope:admin');
 
     // Notificaciones
-    Route::post('notificaciones/index','API\NotificacionController@index')->middleware('scope:colaborador');
+    Route::post('notificaciones/index/{page?}','API\NotificacionController@index')->middleware('scope:colaborador');
     Route::post('notificaciones/mis-notificaciones','API\NotificacionController@misNotificaciones');
     Route::post('notificacion/eliminar/{id}','API\NotificacionController@eliminarNotificacion')->middleware('scope:colaborador');
     
@@ -99,11 +103,11 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::post('viviendas/mis-favoritas','API\ViviendaController@misFavoritas');
     Route::post('viviendas/anadir-favoritos','API\ViviendaController@addFavoritos');
     // Estados
-    // ->middleware('scope:admim,colaborador');
+    Route::post('estados/index/{page?}', 'API\EstadoController@index')->middleware('scope:admin,colaborador');
 
 
     // Tipos
-    // Route::post('tipos/index','API\TipoController@index')->middleware('scope:admin,colaborador');
+    Route::post('tipos/index/{page?}', 'API\TipoController@index')->middleware('scope:admin,colaborador');
 
     //Dashboard
     Route::post('dashboard/usuarios', 'API\UserController@usuarios')->middleware('scope:admin');

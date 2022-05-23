@@ -13,9 +13,10 @@ use App\Http\Controllers\API\ResponseController as ResponseController;
 class NotificacionController extends ResponseController
 {
    
-    public function index()
+    public function index(Request $request)
     {
         $userId = Auth::user()->id;
+        $perPage = $request->get('perPageData');
 
         $notificaciones =  Inmobiliaria::where('user_id',$userId)->get();
 
@@ -25,7 +26,13 @@ class NotificacionController extends ResponseController
 
             $idsViviendas = Vivienda::where('inmobiliaria_id',$idInmobiliaria)->select('id')->get();
     
-            $viviendasNotificaciones = Notificacion::with('vivienda.imagenes')->whereIn('vivienda_id',$idsViviendas)->get();
+            $viviendasNotificaciones = Notificacion::with('vivienda.imagenes')
+            ->whereIn('vivienda_id',$idsViviendas)->where(function ($query) use ($request){
+                if($request->has('search')){
+                    $query->where('mensaje','LIKE','%'.$request->search.'%');
+                }
+            } )
+            ->paginate($perPage);
     
             $notificaciones = new NotificacionCollection($viviendasNotificaciones);
     

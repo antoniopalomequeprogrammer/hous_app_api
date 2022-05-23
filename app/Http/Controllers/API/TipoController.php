@@ -6,12 +6,19 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\API\ResponseController as ResponseController;
 class TipoController extends ResponseController
 {
-    public function index()
+    public function index(Request $request)
     {
-        $tipos = Tipo::all();
+
+        $perPage = $request->get('perPageData');
+
+        $tipos = Tipo::where(function ($query) use ($request){
+            if($request->has('search')){
+                $query->where('tipo','LIKE','%'.$request->search.'%');
+            }
+        })->paginate($perPage);
+
         return $tipos;
-        // $tipos = new TiposCollection($tipos);
-        // return $tipos;
+
     }
 
     public function eliminarTipo($id){
