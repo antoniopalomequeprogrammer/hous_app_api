@@ -8,19 +8,16 @@
     ],
     "license": "MIT",
     "require": {
-        "php": "^7.2.5",
-        "barryvdh/laravel-snappy": "0.4.7",
+        "php": "^7.2.5 |^8.1.0",
+        "barryvdh/laravel-dompdf": "^1.0",
         "fideloper/proxy": "^4.2",
         "fruitcake/laravel-cors": "^1.0",
         "guzzlehttp/guzzle": "^6.3",
         "laravel/framework": "^7.0",
         "laravel/passport": "^9.3",
         "laravel/tinker": "^2.0",
-        "ourcodeworld/php-pngquant": "^1.0",
+        "maatwebsite/excel": "^3.1",
         "predis/predis": "^1.1",
-        "spatie/image-optimizer": "^1.5",
-        "spatie/laravel-image-optimizer": "^1.6",
-        "ssheduardo/redsys-laravel": "~1.4.0",
         "stripe/stripe-php": "^7.97"
     },
     "require-dev": {
@@ -33,7 +30,10 @@
     "config": {
         "optimize-autoloader": true,
         "preferred-install": "dist",
-        "sort-packages": true
+        "sort-packages": true,
+        "platform": {
+            "php": "7.4.9"
+        }
     },
     "extra": {
         "laravel": {
@@ -44,9 +44,6 @@
         "psr-4": {
             "App\\": "app/"
         },
-        "files": [
-            "app/Helpers/Helpers.php"
-        ],
         "classmap": [
             "database/seeds",
             "database/factories"
