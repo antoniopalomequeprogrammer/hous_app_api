@@ -30,7 +30,7 @@ class PasswordResetController extends ResponseController{
 
         $passwordReset = PasswordReset::updateOrCreate(
             ['email' => $user->email],
-            ['email' => $user->email, 'token' => str_random(60)]
+            ['email' => $user->email, 'token' => \str_random(60)]
         );
 
         if ($user && $passwordReset){

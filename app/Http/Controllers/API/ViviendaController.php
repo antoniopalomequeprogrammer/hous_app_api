@@ -24,9 +24,10 @@ class ViviendaController extends ResponseController
 
 
         $viviendas = Vivienda::where(function ($query) use ($filtros, $request) {
-
-            if ($request->has('search')) {
-                $query->where('titulo', 'LIKE', '%' . $request->search . '%');
+           
+            if ($filtros['search']!="") {
+                
+                $query->where('titulo', 'LIKE',   $filtros['search'] . '%');
             }
         })
             ->when($filtros['ascensor'], function ($query) use ($filtros) {
@@ -49,17 +50,17 @@ class ViviendaController extends ResponseController
                 $query->where('ciudad',$filtros['ciudad']);
             })
 
-            ->when($filtros['habitaciones'] != '', function ($query) use ($filtros) {
+            ->when($filtros['habitaciones'] != 0, function ($query) use ($filtros) {
 
                 if ($filtros['habitaciones'] >= 3) {
-                    $query->where('habitacion', '<=', $filtros['habitaciones']);
+                    $query->where('habitacion', '>=', $filtros['habitaciones']);
                 } else {
                     $query->where('habitacion', $filtros['habitaciones']);
                 }
             })
-            ->when($filtros['banos'] != '', function ($query) use ($filtros) {
+            ->when($filtros['banos'] != 0, function ($query) use ($filtros) {
                 if ($filtros['banos'] >= 3) {
-                    $query->where('banos', '<=', $filtros['banos']);
+                    $query->where('banos', '>=', $filtros['banos']);
                 } else {
                     $query->where('banos', $filtros['banos']);
                 }
