@@ -41,7 +41,7 @@ class PasswordResetController extends ResponseController{
                 $toEmail = $user->email;
             }
             
-            return $toEmail;
+           
 
             Mail::to($toEmail)->send(new ForgotPassMail($user, $passwordReset->token));
         }
