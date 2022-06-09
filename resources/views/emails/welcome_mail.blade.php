@@ -1,11 +1,9 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Marketplaces.com</title>
+    <title>DREAMHOUSE</title>
 </head>
 <body>
-    <h1>{{ $contenido }}</h1>
-   
-    <p>Gracias por realizar su</p>
+<p>Gracias por registrarte en nuestra plataforma</p>
 </body>
 </html>

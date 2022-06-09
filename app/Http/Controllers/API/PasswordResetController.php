@@ -3,6 +3,7 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
+use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\ForgotPassMail;
 use App\Models\User;
@@ -30,7 +31,7 @@ class PasswordResetController extends ResponseController{
 
         $passwordReset = PasswordReset::updateOrCreate(
             ['email' => $user->email],
-            ['email' => $user->email, 'token' => \str_random(60)]
+            ['email' => $user->email, 'token' => Str::random(60)]
         );
 
         if ($user && $passwordReset){
@@ -39,6 +40,8 @@ class PasswordResetController extends ResponseController{
             }else{
                 $toEmail = $user->email;
             }
+            
+            return $toEmail;
 
             Mail::to($toEmail)->send(new ForgotPassMail($user, $passwordReset->token));
         }

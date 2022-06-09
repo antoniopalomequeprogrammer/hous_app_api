@@ -11,6 +11,7 @@ use App\Models\User;
 use App\Models\Cliente;
 use App\Services\StripeService;
 use App\Services\FileService;
+use App\Mail\WelcomeMail;
 use Illuminate\Validation\Rule;
 use Validator;
 
@@ -65,21 +66,10 @@ class AuthController extends ResponseController{
         $userData['rol'] = $input['userType'];
         $user = User::create($userData);
 
-        // if (isset($input['logo'])) {
-        //     $imagen = FileService::guardarArchivo($input['logo'], "/logo/usuario/{$user->id}");
+        \Mail::to($user->email)->send(new WelcomeMail($user));
 
-        //     User::where('id',$user->id)->update([
-        //         'logo' => $imagen,
-        //     ]);
-        // }
 
-        
         if($user){
-
-            // $clienteNuevo = StripeService::createCustomer($user);
-
-            // dd($clienteNuevo);
-
             $success['token'] =  $user->createToken('token', [$user->rol])->accessToken;
             $success['nombre'] =  $user->nombre;
             $success['email'] =  $user->email;
