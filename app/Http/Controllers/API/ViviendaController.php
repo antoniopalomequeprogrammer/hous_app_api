@@ -10,6 +10,8 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\API\ResponseController as ResponseController;
 use App\Http\Resources\ViviendaCollection;
 use App\Models\Imagen;
+use App\Mail\AddFavoritos;
+use App\Mail\ViviendaBorradaMail;
 use App\Models\User;
 use App\Services\FileService;
 
@@ -109,6 +111,15 @@ class ViviendaController extends ResponseController
                 'user_id' => $userId,
                 'vivienda_id' => $idVivienda,
             ]);
+
+
+            // Buscar id inmobiliaria de a quien pertenece la vivienda;
+            $vivienda = Vivienda::find($idVivienda);
+            $auxIdInmobiliaria = Vivienda::find($idVivienda)->inmobiliaria_id;
+            $correoInmobiliaria = Inmobiliaria::find($auxIdInmobiliaria)->email;
+
+            \Mail::to($correoInmobiliaria)->send(new AddFavoritos($vivienda));
+
             $mensaje = 'Se ha añadido la vivienda a favoritos';
             return response()->json($mensaje);
         }
@@ -259,7 +270,7 @@ class ViviendaController extends ResponseController
         try {
 
             $id = Vivienda::where('id',$id)->first()->id;
-            
+            $vivienda = Vivienda::find($id);
             $imagenes = Imagen::where('vivienda_id',$id)->get();
 
             // ForEach que borra las imagenes almacenadas.
@@ -269,6 +280,27 @@ class ViviendaController extends ResponseController
 
             //Borramos las rutas de las imagenes de la vivienda. 
             Imagen::where('vivienda_id',$id)->delete();
+
+
+            //Listado de correos que han añadido la vivienda a favoritos
+
+            $auxIdsUsuarios = \DB::table('user_vivienda')->where('vivienda_id',$id)->pluck('user_id')->toArray();
+            $emailsUsuariosFavoritos = User::whereIn('id', $auxIdsUsuarios)->get();
+            
+            
+            $auxArrayEmails = [];
+            foreach ($emailsUsuariosFavoritos as $key => $usuario) {
+                array_push($auxArrayEmails,$usuario->email);
+            }
+
+            foreach ($emailsUsuariosFavoritos as $key => $email) {
+                
+                \Mail::to($email)->send(new ViviendaBorradaMail($vivienda));
+
+            }
+
+            response()->json($emailsUsuariosFavoritos);
+
 
             // Borramos la vivienda.
             Vivienda::find($id)->delete();
