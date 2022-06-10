@@ -63,7 +63,7 @@ Route::group(['middleware' => 'auth:api'], function () {
     //Usuarios
     Route::post('usuarios/index/{page?}', 'API\UserController@index')->middleware('scope:admin');
     Route::post('usuarios/crear', 'API\UserController@store')->middleware('scope:admin');
-    Route::post('usuario/actualizar/{id}', 'API\UserController@update')->middleware('scope:admin');
+    Route::post('usuario/actualizar/{id}', 'API\UserController@update')->middleware('scope:admin,colaborador');
     Route::post('usuarios/cambiar-password', 'API\UserController@cambiarPassword')->middleware('scope:admin,colaborador');
     Route::post('usuarios/eliminar/{id}', 'API\UserController@eliminarUsuario')->middleware('scope:admin');
     Route::post('usuarios/miPerfil', 'API\UserController@miPerfil')->middleware('scope:admin,colaborador');

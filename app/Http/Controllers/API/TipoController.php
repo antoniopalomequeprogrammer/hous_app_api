@@ -23,6 +23,7 @@ class TipoController extends ResponseController
 
     public function eliminarTipo($id){
 
+        // 
         try {
           Tipo::where('id',$id)->delete();
           return "ok";

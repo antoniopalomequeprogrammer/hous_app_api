@@ -135,16 +135,19 @@ class ViviendaController extends ResponseController
     {
         $perPage = $request->get('perPageData');
 
-        
+        $viviendas = [];
 
-        $inmobiliaria_id = Inmobiliaria::where('user_id',\Auth::user()->id)->first()->id;
-        
-        $viviendas = Vivienda::where(function ($query) use ($request) {
+        $inmobiliaria = Inmobiliaria::where('user_id',\Auth::user()->id)->first();
 
-            if ($request->has('search')) {
-                $query->where('titulo', 'LIKE', '%' . $request->search . '%');
-            }
-        })->where('inmobiliaria_id',$inmobiliaria_id)->paginate($perPage);
+        if($inmobiliaria){
+            $viviendas = Vivienda::where(function ($query) use ($request) {
+    
+                if ($request->has('search')) {
+                    $query->where('titulo', 'LIKE', '%' . $request->search . '%');
+                }
+            })->where('inmobiliaria_id',$inmobiliaria->id)->paginate($perPage);
+        }
+        
 
         return new ViviendaCollection($viviendas);
     }

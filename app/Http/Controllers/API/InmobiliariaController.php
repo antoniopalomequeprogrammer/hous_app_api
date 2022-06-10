@@ -87,14 +87,30 @@ class InmobiliariaController extends ResponseController
     }
 
     public function eliminarInmobiliaria($id){
+        
 
-        try {
-          Inmobiliaria::where('id',$id)->delete();
-          return "ok";
+        Inmobiliaria::find($id)->delete();
+        
+        // $auxViviendasInmobiliaria = Vivienda::where('inmobiliaria_id',$idInmobiliaria)
+        // ->pluck('id');
 
-      } catch (\Exeptions $e) {
-          return $this->sendError("No se puede borrar la inmobiliaria");
-      }
+        // Vivienda::whereIn('id',$auxViviendasInmobiliaria)->delete();
+
+        
+
+        // return response()->json($viviendasInmobiliarias);                                          
+
+        // return response()->json($inmbiliaria);
+
+
+
+
+        // try {
+        //   Inmobiliaria::where('id',$id)->delete();
+
+        // } catch (\Exeptions $e) {
+        //     return $this->sendError("No se puede borrar la inmobiliaria");
+        // }
 
       }
 
