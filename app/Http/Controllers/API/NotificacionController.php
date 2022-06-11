@@ -12,6 +12,16 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\API\ResponseController as ResponseController;
 class NotificacionController extends ResponseController
 {
+
+
+    public function notificaciones(){
+        $userId = Auth::user()->id;
+        return \DB::table('user_vivienda')->where('user_id',$userId)->count();
+    
+      }
+
+
+
    
     public function index(Request $request)
     {

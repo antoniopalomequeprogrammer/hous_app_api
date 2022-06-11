@@ -9,11 +9,15 @@ use Illuminate\Http\Request;
 
 class EstadoController extends ResponseController
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
+    public function estados(){
+
+        return response()
+                ->json(Estado::count());
+    
+      }
+
+    
     public function index(Request $request)
     {
         $perPage = $request->get('perPageData');
@@ -27,22 +31,6 @@ class EstadoController extends ResponseController
         return $estados;
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
        $estado = $request->get('estado');
@@ -65,50 +53,4 @@ class EstadoController extends ResponseController
       }
 
       }
-
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Estado  $estado
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Estado $estado)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Estado  $estado
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Estado $estado)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Estado  $estado
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Estado $estado)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Estado  $estado
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Estado $estado)
-    {
-        //
-    }
 }

@@ -174,7 +174,9 @@ return [
         App\Providers\AuthServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
-        Maatwebsite\Excel\ExcelServiceProvider::class
+        Intervention\Image\ImageServiceProvider::class
+
+        // Maatwebsite\Excel\ExcelServiceProvider::class
         // App\Providers\BroadcastServiceProvider::class,
         // App\Providers\TelescopeServiceProvider::class,
 
@@ -231,7 +233,10 @@ return [
         'View' => Illuminate\Support\Facades\View::class,
         'Helper' => App\Helpers\Helper::class,
         'PDF_FILE' => Barryvdh\DomPDF\Facade::class,
-        'Excel' => Maatwebsite\Excel\Facades\Excel::class,
+        'Image' => Intervention\Image\Facades\Image::class
+
+        // 'Excel' => Maatwebsite\Excel\Facades\Excel::class,
+        // 'Excel' => Maatwebsite\Excel\Facades\Excel,
         // 'SnappyImage' => Barryvdh\Snappy\Facades\SnappyImage::class
 
     ],

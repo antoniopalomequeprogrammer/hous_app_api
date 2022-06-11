@@ -6,6 +6,14 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\API\ResponseController as ResponseController;
 class TipoController extends ResponseController
 {
+
+    public function tipos(){
+
+        return response()
+                ->json(Tipo::count());
+    
+      }
+
     public function index(Request $request)
     {
 

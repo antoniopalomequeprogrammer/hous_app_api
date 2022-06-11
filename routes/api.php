@@ -111,4 +111,13 @@ Route::group(['middleware' => 'auth:api'], function () {
 
     //Dashboard
     Route::post('dashboard/usuarios', 'API\UserController@usuarios')->middleware('scope:admin');
+    Route::post('dashboard/tipos', 'API\TipoController@tipos')->middleware('scope:admin');
+    Route::post('dashboard/estados','API\EstadoController@estados')->middleware('scope:admin');
+    Route::post('dashboard/inmobiliarias','API\InmobiliariaController@inmobiliarias')->middleware('scope:admin');
+
+
+    //Dashboard Colaborador
+    Route::post('dashboard/notificaciones','API\NotificacionController@notificaciones')->middleware('scope:colaborador');
+    Route::post('dashboard/viviendas','API\ViviendaController@viviendas')->middleware('scope:colaborador');
+
 });

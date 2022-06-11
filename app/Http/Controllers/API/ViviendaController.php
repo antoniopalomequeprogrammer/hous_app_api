@@ -18,6 +18,25 @@ use App\Services\FileService;
 class ViviendaController extends ResponseController
 {
 
+    public function viviendas(){
+        $userId = Auth::user()->id;
+        
+        $inmobiliaria = Inmobiliaria::where('user_id',$userId)->first();
+
+        if($inmobiliaria){
+           return  Vivienda::where('inmobiliaria_id',$inmobiliaria->id)->count();
+
+        }else{
+            return 0;
+        }
+
+        return $inmobiliariaId;
+    
+      }
+
+
+
+
     public function index(Request $request)
     {
         $filtros = $request->get('filtros');

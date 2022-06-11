@@ -5,8 +5,10 @@ use Illuminate\Http\Request;
 use Validator;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
+use Intervention\Image\ImageManagerStatic as Image;
 
 class FileService {
+
 
     public static function guardarArchivo($file, $ruta, $base64 = false)
   {
@@ -36,6 +38,8 @@ class FileService {
         $storage_path = $path . $nombre_fichero;
       }
     }
+
+
 
     $optimizePath = Storage::disk('public')->path($storage_path);
     $optimizePath = str_replace('\\', '/', $optimizePath);
@@ -86,6 +90,8 @@ class FileService {
 
     return $storage_path;
   }
+
+
   public static function obtenerArchivo($path, $perfil = false, $base64 = true)
   {
 

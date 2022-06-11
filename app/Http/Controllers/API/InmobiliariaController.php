@@ -12,6 +12,14 @@ use App\Services\FileService;
 class InmobiliariaController extends ResponseController
 {
 
+    public function inmobiliarias(){
+
+        return response()
+                ->json(Inmobiliaria::count());
+    
+      }
+
+
     public function index(Request $request)
     {   
         $search = $request->get('search');
