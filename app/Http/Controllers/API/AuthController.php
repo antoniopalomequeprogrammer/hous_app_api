@@ -19,7 +19,7 @@ class AuthController extends ResponseController{
     //login
     public function login(Request $request){
         $input = $request->all();
-
+        
         $validator = Validator::make($request->all(), [
             'email' => 'required|string',
             'password' => 'required'
@@ -42,6 +42,7 @@ class AuthController extends ResponseController{
             $success['email'] =  $user->email;
             return $this->sendResponse($success);
         }else{
+            echo "Usuario No valido";
             return $this->sendError('Usuario no válido');
         }
     }

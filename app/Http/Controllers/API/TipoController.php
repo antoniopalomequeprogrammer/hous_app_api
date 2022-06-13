@@ -17,15 +17,17 @@ class TipoController extends ResponseController
     public function index(Request $request)
     {
 
-        $perPage = $request->get('perPageData');
+        return Tipo::select('id','tipo')->get();
 
-        $tipos = Tipo::where(function ($query) use ($request){
-            if($request->has('search')){
-                $query->where('tipo','LIKE','%'.$request->search.'%');
-            }
-        })->paginate($perPage);
+        // $perPage = $request->get('perPageData');
 
-        return $tipos;
+        // $tipos = Tipo::where(function ($query) use ($request){
+        //     if($request->has('search')){
+        //         $query->where('tipo','LIKE','%'.$request->search.'%');
+        //     }
+        // })->paginate($perPage);
+
+        // return $tipos;
 
     }
 

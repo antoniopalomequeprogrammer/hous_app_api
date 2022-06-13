@@ -103,11 +103,11 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::post('viviendas/mis-favoritas','API\ViviendaController@misFavoritas');
     Route::post('viviendas/anadir-favoritos','API\ViviendaController@addFavoritos');
     // Estados
-    Route::post('estados/index/{page?}', 'API\EstadoController@index')->middleware('scope:admin,colaborador');
+    Route::post('estados/index', 'API\EstadoController@index')->middleware('scope:admin,colaborador');
 
 
     // Tipos
-    Route::post('tipos/index/{page?}', 'API\TipoController@index')->middleware('scope:admin,colaborador');
+    Route::post('tipos/index', 'API\TipoController@index')->middleware('scope:admin,colaborador');
 
     //Dashboard
     Route::post('dashboard/usuarios', 'API\UserController@usuarios')->middleware('scope:admin');

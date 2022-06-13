@@ -20,15 +20,17 @@ class EstadoController extends ResponseController
     
     public function index(Request $request)
     {
-        $perPage = $request->get('perPageData');
 
-        $estados = Estado::where(function ($query) use ($request){
-            if($request->has('search')){
-                $query->where('estado','LIKE','%'.$request->search.'%');
-            }
-        })->paginate($perPage);
+        return Estado::select('id','estado')->get();
+        // $perPage = $request->get('perPageData');
 
-        return $estados;
+        // $estados = Estado::where(function ($query) use ($request){
+        //     if($request->has('search')){
+        //         $query->where('estado','LIKE','%'.$request->search.'%');
+        //     }
+        // })->paginate($perPage);
+
+        // return $estados;
     }
 
     public function store(Request $request)
