@@ -98,27 +98,6 @@ class InmobiliariaController extends ResponseController
         
 
         Inmobiliaria::find($id)->delete();
-        
-        // $auxViviendasInmobiliaria = Vivienda::where('inmobiliaria_id',$idInmobiliaria)
-        // ->pluck('id');
-
-        // Vivienda::whereIn('id',$auxViviendasInmobiliaria)->delete();
-
-        
-
-        // return response()->json($viviendasInmobiliarias);                                          
-
-        // return response()->json($inmbiliaria);
-
-
-
-
-        // try {
-        //   Inmobiliaria::where('id',$id)->delete();
-
-        // } catch (\Exeptions $e) {
-        //     return $this->sendError("No se puede borrar la inmobiliaria");
-        // }
 
       }
 
@@ -126,29 +105,34 @@ class InmobiliariaController extends ResponseController
       {
           $inputs = $request->get('inmobiliaria');
 
-        //    try {
+
+          $inmobiliaria = Inmobiliaria::find($id);
+
+
+          $path = "/".$request->get('id');
+          if($request->has('logo')){
+            $logo = FileService::guardarArchivo($request->get('logo'), $path,true);
+            $data['logo'] = $logo;
+        }
+
+
+        $inmobiliaria->update();
+        
             Inmobiliaria::where('id',$id)->update([
-              'nombre' => $inputs['nombre'],
-              'telefono' => $inputs['telefono'],
-              'direccion' => $inputs['direccion'],
-              'descripcion' => $inputs['descripcion'],
-              'logo' => $inputs['logo'],
+              'nombre' => $request->get('nombre'),
+              'telefono' => $request->get('telefono'),
+              'direccion' => $request->get('direccion'),
+              'descripcion' => $request->get('descripcion'),
+              'logo' => $data['logo'],
 
             ]);
 
             return response()->json("Inmobiliaria Editada correctamente");
-
-        //    } catch (\Illuminate\Database\QueryException $e) {
-        //       $errorCode = $e->errorInfo[1];
-        //       if($errorCode == 1062){
-        //           return $this->sendError("El telefono o correo de la inmobiliaria que intenta actualizar existe en la base de datos");
-        //       }
-        //   }
       }
 
     public function store(Request $request)
     {
-
+        dd($request->logo);
         // $nombreInmobiliaria = $request->nombre;
         $file = $request->imagenes;
         $user_id = Auth::user()->id;
@@ -169,26 +153,27 @@ class InmobiliariaController extends ResponseController
 
 
 
-            $dataVivienda = [
-                'titulo' => $request->get('titulo'),
-                'descripcion' => $request->get('descripcion'),
-                'precio' => $request->get('precio'),
-                'habitacion' => $request->get('habitaciones'),
-                'planta' => $request->get('planta'),
-                'banos' => $request->get('banos'),
-                'ascensor' => $request->get('ascensor'),
-                'garaje' => $request->get('garaje'),
-                'm2' => $request->get('m2'),
-                'terraza' => $request->get('terraza'),
-                'inmobiliaria_id' => $inmobiliaria_id,
-                'estado_id' => $request->get('estado'),
-                'tipo_id' => $request->get('tipo'),
-            ];
+            // $dataVivienda = [
+            //     'titulo' => $request->get('titulo'),
+            //     'descripcion' => $request->get('descripcion'),
+            //     'precio' => $request->get('precio'),
+            //     'habitacion' => $request->get('habitaciones'),
+            //     'planta' => $request->get('planta'),
+            //     'banos' => $request->get('banos'),
+            //     'ascensor' => $request->get('ascensor'),
+            //     'garaje' => $request->get('garaje'),
+            //     'm2' => $request->get('m2'),
+            //     'terraza' => $request->get('terraza'),
+            //     'inmobiliaria_id' => $inmobiliaria_id,
+            //     'estado_id' => $request->get('estado'),
+            //     'tipo_id' => $request->get('tipo'),
+            // ];
 
-            $data = Vivienda::create($dataVivienda);
-            $path = "/".$data->inmobiliaria_id.'/'.$data->id;
+            // $data = Vivienda::create($dataVivienda);
+            // $path = "/".$data->inmobiliaria_id.'/'.$data->id;
+            $path = "inmobiliaria/".$data->id;
 
-            // $imagen = FileService::guardarArchivo($file, $path,true);
+            $imagen = FileService::guardarArchivo($file, $path,true);
         }
 
         // $data = "No se ha creado la inmobiliaria";
