@@ -247,42 +247,49 @@ class ViviendaController extends ResponseController
 
     public function update(Request $request, $id)
     {
-        $inputs = $request->get('vivienda');
-
-        $garaje = $request->has('garaje')  ?  $request->get('garaje') : 0;
-        $ascensor = $request->has('ascensor')  ?  $request->get('ascensor') : 0;
-        $terraza = $request->has('terraza')  ?  $request->get('terraza') : 0;
+       
         
-        Vivienda::where('id', $id)->update([
-            'titulo' => $inputs['titulo'],
-            'descripcion' => $inputs['descripcion'],
-            'precio' => $inputs['precio'],
-            'habitacion' => $inputs['habitacion'],
-            'planta' => $inputs['planta'],
-            'banos' => $inputs['banos'],
+        $garaje = $request->has('garaje')  ?  $request->garaje : 0;
+        $ascensor = $request->has('ascensor')  ?  $request->ascensor : 0;
+        $terraza = $request->has('terraza')  ?  $request->terraza : 0;
+        
+        $viviendaActualizada = Vivienda::where('id', $id)->update([
+            'titulo' => $request->titulo,
+            'descripcion' => $request->descripcion,
+            'precio' => $request->precio,
+            'habitacion' => $request->habitacion,
+            'planta' => $request->planta,
+            'banos' => $request->banos,
             'ascensor' => $ascensor,
             'garaje' => $garaje,
             'terraza' => $terraza,
-            'm2' => $inputs['m2'],
+            'm2' => $request->m2,
 
 
         ]);
 
-        if (isset($inputs['estado'])) {
+        
+
+        if (isset($request->estado)) {
             Vivienda::where('id', $id)->update([
-                'estado_id' => $inputs['estado'],
+                'estado_id' => $request->estado,
             ]);
         }
 
-        if (isset($inputs['tipo'])) {
+        if (isset($request->tipo)) {
             Vivienda::where('id', $id)->update([
-                'tipo_id' => $inputs['tipo'],
+                'tipo_id' => $request->tipo,
             ]);
         }
 
+        $imagenesNuevas = json_decode($request->get('imagenesNuevas'), true); // Imagenes nuevas.
+        $imagenesPath = json_decode($request->get('imagenes'), true); //Imagenes que tiene el producto actualmente.
+        
+        $this->actualizarImagenesVivienda($imagenesNuevas, $imagenesPath, $id);
 
 
-        return response()->json("Vivienda Editada correctamente");
+
+        // return response()->json("Vivienda Editada correctamente");
     }
 
 
@@ -330,5 +337,36 @@ class ViviendaController extends ResponseController
         } catch (\Exeptions $e) {
             return $this->sendError("No se puede borrar la vivienda");
         }
+    }
+
+    public function actualizarImagenesVivienda($imagenesNuevas, $imagenesPath, $id)
+    {
+       
+        //Imagenes que no debo borrar.
+        $imagenesDB = [];
+        
+        foreach ($imagenesPath as $key => $imagenPath) {
+            
+            array_push($imagenesDB, Imagen::where('ruta', $imagenPath['ruta'])->first()->id);
+        }
+
+
+        $imagenesBorradas = Imagen::whereNotIn('id', $imagenesDB)->where('vivienda_id', $id)->pluck('ruta');
+
+        foreach ($imagenesBorradas as $key => $imagen) {
+            FileService::borrarArchivo($imagen);
+        }
+        Imagen::whereNotIn('id', $imagenesDB)->where('vivienda_id', $id)->delete();
+
+        if(isset($imagenesNuevas)){
+            foreach ($imagenesNuevas as $key => $imagenNueva) {
+                $imagenUrl = FileService::guardarArchivo($imagenNueva, "/vivienda/{$id}", true);
+                Imagen::create([
+                    'ruta' => $imagenUrl,
+                    'vivienda_id' => $id
+                ]);
+            }
+        }
+
     }
 }
