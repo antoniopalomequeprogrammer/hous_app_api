@@ -264,23 +264,25 @@ class ViviendaController extends ResponseController
             'garaje' => $garaje,
             'terraza' => $terraza,
             'm2' => $request->m2,
+            'estado_id' => $request->estado_id,
+            'tipo_id' => $request->tipo_id,
 
 
         ]);
 
         
 
-        if (isset($request->estado)) {
-            Vivienda::where('id', $id)->update([
-                'estado_id' => $request->estado,
-            ]);
-        }
+        // if (isset($request->estado)) {
+        //     Vivienda::where('id', $id)->update([
+        //         'estado_id' => $request->estado_id,
+        //     ]);
+        // }
 
-        if (isset($request->tipo)) {
-            Vivienda::where('id', $id)->update([
-                'tipo_id' => $request->tipo,
-            ]);
-        }
+        // if (isset($request->tipo)) {
+        //     Vivienda::where('id', $id)->update([
+        //         'tipo_id' => $request->tipo_id,
+        //     ]);
+        // }
 
         $imagenesNuevas = json_decode($request->get('imagenesNuevas'), true); // Imagenes nuevas.
         $imagenesPath = json_decode($request->get('imagenes'), true); //Imagenes que tiene el producto actualmente.
