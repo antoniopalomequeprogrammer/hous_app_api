@@ -16,7 +16,8 @@ class NotificacionController extends ResponseController
 
     public function notificaciones(){
         $userId = Auth::user()->id;
-        $idInmobiliaria = Inmobiliaria::where('user_id',$userId);
+       
+        $idInmobiliaria = Inmobiliaria::where('user_id',$userId)->first()->id;
         $viviendas = Vivienda::where('inmobiliaria_id',$idInmobiliaria)->pluck('id');
         return Notificacion::whereIn('vivienda_id',$viviendas)->count();
     
