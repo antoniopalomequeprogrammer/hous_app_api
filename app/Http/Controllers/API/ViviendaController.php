@@ -291,7 +291,7 @@ class ViviendaController extends ResponseController
 
 
 
-        // return response()->json("Vivienda Editada correctamente");
+        return response()->json("Vivienda Editada correctamente");
     }
 
 

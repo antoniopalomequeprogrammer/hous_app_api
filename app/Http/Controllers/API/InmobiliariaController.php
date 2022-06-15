@@ -117,22 +117,35 @@ class InmobiliariaController extends ResponseController
 
 
         $inmobiliaria->update();
-        
-            Inmobiliaria::where('id',$id)->update([
-              'nombre' => $request->get('nombre'),
-              'telefono' => $request->get('telefono'),
-              'direccion' => $request->get('direccion'),
-              'descripcion' => $request->get('descripcion'),
-              'logo' => $data['logo'],
 
-            ]);
+            if(isset($data['logo'])){
+                
+                            Inmobiliaria::where('id',$id)->update([
+                              'nombre' => $request->get('nombre'),
+                              'telefono' => $request->get('telefono'),
+                              'direccion' => $request->get('direccion'),
+                              'descripcion' => $request->get('descripcion'),
+                              'logo' => $data['logo'],
+                
+                            ]);
+
+
+            }else{
+                Inmobiliaria::where('id',$id)->update([
+                    'nombre' => $request->get('nombre'),
+                    'telefono' => $request->get('telefono'),
+                    'direccion' => $request->get('direccion'),
+                    'descripcion' => $request->get('descripcion'),
+      
+                  ]);
+            }
 
             return response()->json("Inmobiliaria Editada correctamente");
       }
 
     public function store(Request $request)
     {
-        dd($request->logo);
+        
         // $nombreInmobiliaria = $request->nombre;
         $file = $request->imagenes;
         $user_id = Auth::user()->id;
