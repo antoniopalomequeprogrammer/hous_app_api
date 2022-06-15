@@ -48,7 +48,8 @@ class ViviendaController extends ResponseController
            
             if ($filtros['search']) {
                 
-                $query->where('titulo', 'LIKE',   $filtros['search'] . '%');
+                $query->where('titulo', 'LIKE',   '%'.$filtros['search'] . '%');
+               
             }
         })
             ->when($filtros['ascensor'], function ($query) use ($filtros) {
