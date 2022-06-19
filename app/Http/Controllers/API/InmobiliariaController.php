@@ -7,8 +7,10 @@ use App\Models\Vivienda;
 use App\Http\Resources\ViviendaCollection;
 use App\Http\Resources\InmobiliariaCollection;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Requests\InmobiliariaUpdateRequest;
 use App\Http\Controllers\API\ResponseController as ResponseController;
 use App\Services\FileService;
+use App\Services\InmobiliariaService;
 class InmobiliariaController extends ResponseController
 {
 
@@ -101,52 +103,22 @@ class InmobiliariaController extends ResponseController
 
       }
 
-      public function editar(Request $request, $id)
+      public function editar($inmobiliaria_id,InmobiliariaUpdateRequest $request,InmobiliariaService $service): void
       {
-          $inputs = $request->get('inmobiliaria');
+        $inmobiliaria = Inmobiliaria::findOrFail($inmobiliaria_id);
 
+        $datosComprobados = $service->comprobarDatos($request->all());
+        
+        $inmobiliaria->update($datosComprobados);
 
-          $inmobiliaria = Inmobiliaria::find($id);
-
-
-          $path = "/".$request->get('id');
-          if($request->has('logo')){
-            $logo = FileService::guardarArchivo($request->get('logo'), $path,true);
-            $data['logo'] = $logo;
-        }
-
-
-        $inmobiliaria->update();
-
-            if(isset($data['logo'])){
-                
-                            Inmobiliaria::where('id',$id)->update([
-                              'nombre' => $request->get('nombre'),
-                              'telefono' => $request->get('telefono'),
-                              'direccion' => $request->get('direccion'),
-                              'descripcion' => $request->get('descripcion'),
-                              'logo' => $data['logo'],
-                
-                            ]);
-
-
-            }else{
-                Inmobiliaria::where('id',$id)->update([
-                    'nombre' => $request->get('nombre'),
-                    'telefono' => $request->get('telefono'),
-                    'direccion' => $request->get('direccion'),
-                    'descripcion' => $request->get('descripcion'),
-      
-                  ]);
-            }
-
-            return response()->json("Inmobiliaria Editada correctamente");
       }
+
+
+
 
     public function store(Request $request)
     {
-        
-        // $nombreInmobiliaria = $request->nombre;
+
         $file = $request->imagenes;
         $user_id = Auth::user()->id;
 
@@ -164,26 +136,6 @@ class InmobiliariaController extends ResponseController
             $inputs['tipo'] = $request->get('tipo');
             $inputs['habitaciones'] = $request->get('habitaciones');
 
-
-
-            // $dataVivienda = [
-            //     'titulo' => $request->get('titulo'),
-            //     'descripcion' => $request->get('descripcion'),
-            //     'precio' => $request->get('precio'),
-            //     'habitacion' => $request->get('habitaciones'),
-            //     'planta' => $request->get('planta'),
-            //     'banos' => $request->get('banos'),
-            //     'ascensor' => $request->get('ascensor'),
-            //     'garaje' => $request->get('garaje'),
-            //     'm2' => $request->get('m2'),
-            //     'terraza' => $request->get('terraza'),
-            //     'inmobiliaria_id' => $inmobiliaria_id,
-            //     'estado_id' => $request->get('estado'),
-            //     'tipo_id' => $request->get('tipo'),
-            // ];
-
-            // $data = Vivienda::create($dataVivienda);
-            // $path = "/".$data->inmobiliaria_id.'/'.$data->id;
             $path = "inmobiliaria/".$data->id;
 
             $imagen = FileService::guardarArchivo($file, $path,true);
